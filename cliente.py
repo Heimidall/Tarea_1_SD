@@ -3,7 +3,7 @@
 import socket
 import sys
  
-archivo = open('respuestas.txt','w')
+archivo = open('respuestas.txt','a')
 
 # Creando un socket TCP/IP
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

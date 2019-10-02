@@ -38,9 +38,9 @@ while True:
     # responder estoy vivo
     sock.sendto(b'Estoy vivo!', address) # respondemos el multicast
     try:  
-        mensajeServer , address= sckt.recvfrom(1024)#recibir mensaje
+        mensajeServer , address= sock.recvfrom(1024)#recibir mensaje
         mensajeServer = mensajeServer.split(' ')
-        if mensajeServer[-1] == sckt.gethostbyname(socket.gethostname()):
+        if mensajeServer[-1] == sock.gethostbyname(socket.gethostname()):
             archivo.write(mensajeServer+'\n') #escribir en data.txt
             sock.sendto(b'registro fue correto', address)
     except:

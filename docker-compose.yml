@@ -1,0 +1,63 @@
+version: "3.7"
+
+services:
+  server:
+    build:
+      context: ./Ejercicio_2
+      dockerfile: DOCKERFILE
+    command: python ./Ejercicio_2/HeadNode.py
+    image: python
+    network_mode: "host"
+    ports:
+      - "5000:5000"
+      - "5001:5001"
+      - "5002:5002"
+      - "5003:5003"
+      - "5004:5004"
+    volumes:
+      - .:/cliente
+      
+  DataNode1:
+    build:
+      context: ./Ejercicio_2
+      dockerfile: DOCKERFILE
+    command: python ./Ejercicio_2/DataNode1.py
+    network_mode: "host"
+    image: python
+    volumes:
+      - .:/cliente
+    depends_on:
+      - server
+  DataNode2:
+    build:
+      context: ./Ejercicio_2
+      dockerfile: DOCKERFILE
+    command: python ./Ejercicio_2/DataNode2.py
+    network_mode: "host"
+    image: python
+    volumes:
+      - .:/cliente
+    depends_on:
+      - server
+  DataNode3:
+    build:
+      context: ./Ejercicio_2
+      dockerfile: DOCKERFILE
+    command: python ./Ejercicio_2/DataNode3.py
+    network_mode: "host"
+    image: python
+    volumes:
+      - .:/cliente
+    depends_on:
+      - server
+  cliente:
+    build:
+      context: ./Ejercicio_2
+      dockerfile: DOCKERFILE
+    command: python ./Ejercicio_2/ClienteP2.py
+    network_mode: "host"
+    image: python
+    volumes:
+      - .:/cliente
+    depends_on:
+      - server

@@ -5,17 +5,18 @@ import time
 import random
 
 message = b'estas vivo?'
-multicast_group = ('224.10.10.10', 5000)
+multicast_group = ('', 5000)
 
 # Crear el socket multicast
-sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-
-# Asignar timeout para no boquear el socket al tratar de recivir datos
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, 2)
 sock.settimeout(0.5)
+# Asignar timeout para no boquear el socket al tratar de recivir datos
 
 # Asignar el TTL para que el mensaje solo pase por la red local
 ttl = struct.pack('b', 1)
-sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
+sock.bind(('',5000))
 
 # -------------------------------------------------------------------
 # enviar multicast cada 5 segundos                                   ok 1
@@ -27,8 +28,10 @@ sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
 # escribir en registro_server.txt el datanode que guarda el mendaje  ok 7
 # mandar un mesaje al cliente con el datanode que recibio su mensaje ok 8
 # -------------------------------------------------------------------
-
-
+ip = socket.gethostbyname(socket.gethostname())
+print(ip)
+ad = socket.gethostbyname_ex(socket.gethostname())[2][1]
+print(ad)
 #socket del cliente
 Clientsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 Clientsock.bind(('localhost',5004))

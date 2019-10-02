@@ -6,7 +6,8 @@ import socket
 # escribir en registro_cliente.txt el datanode que guarda mi mensaje
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
+ip = socket.gethostbyname(socket.gethostname())
+print(ip)
 sock.connect(('localhost',5004))
 
 registro = open('registro_cliente.txt','a')

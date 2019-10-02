@@ -82,8 +82,6 @@ while True: #loop infinito
     
 sock.close()
 Clientsock.close()
-nodo1.close()
-nodo2.close()
-nodo3.close()
+
 hearbeat.close()
 registro.close()

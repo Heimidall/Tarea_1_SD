@@ -19,12 +19,6 @@ group = socket.inet_aton(multicast_group)
 mreq = struct.pack('4sL', group, socket.INADDR_ANY)
 sock.setsockopt(socket.IPPROTO_IP,socket.IP_ADD_MEMBERSHIP,mreq)
 
-<<<<<<< HEAD:DataNode3.py
-=======
-# socket comunicacion 1 a 1
-sckt = socket.socket()
-sckt.connect(('127.0.0.3', 5003)) #deberia cambiar segun el nodo que sea entre [5001 - 5004]
->>>>>>> 8067ab743a027741ff2bc2be4c374702b5422ebe:Ejercicio_2/DataNode3.py
 
 
 # recibir multicast

@@ -31,10 +31,11 @@ while True:
                 data, server = sock.recvfrom(16)
                 mensaje = 'Recibiendo {!r} desde {} \n'.format(data, server)
                 print(mensaje)
-                sent = sock.sendto(message, multicast_group)
+                #sent = sock.sendto(message, multicast_group)
                 hearbeat.write(mensaje) # escribir respuesta en hearbeat_server.txt 2 
-                print('received {!r} from {}'.format(
-                    data, server))
+                print('received {!r} from {}'.format(data, server))
+                sent2 = sock.sendto(b'Mensaje cliente',multicast_group)
+                print('sent2 \n')
                 break
             except:
                 socket.timeout

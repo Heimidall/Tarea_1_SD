@@ -23,11 +23,14 @@ sock.setsockopt(
 # Receive/respond loop
 while True:
     print('\nwaiting to receive message')
-    data, address = sock.recvfrom(1024)
+    data, address = sock.recvfrom(1024) #consulta del HEadNode
 
-    print('received {} bytes from {}'.format(
-        len(data), address))
+    print('received {} bytes from {}'.format(len(data), address)) 
     print(data)
 
     print('Data Node 2 vivo', address)
     sock.sendto(b'Data Node 2 vivo', address)
+
+    data, address = sock.recvfrom(1024) #mensaje del cliente
+    print('recived {} bytes from {}'.format(len(data), address))
+    print(data.decode())

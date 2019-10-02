@@ -30,34 +30,26 @@ sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
 
 #socket de los nodos
 nodo1 = socket.socket()
-nodo1.bind(('localhost',5001))
+nodo1.bind(('127.0.0.1',5001))
 nodo1.listen(1)
 
 nodo2 = socket.socket()
-nodo2.bind(('localhost',5002))
+nodo2.bind(('127.0.0.2',5002))
 nodo2.listen(1)
 
 nodo3 = socket.socket()
-nodo3.bind(('localhost',5003))
+nodo3.bind(('127.0.0.3',5003))
 nodo3.listen(1)
-
-nodo4 = socket.socket()
-nodo4.bind(('localhost',5004))
-nodo4.listen(1)
 
 #socket del cliente
 Clientsock = socket.socket()
-Clientsock.bind(('localhost',5005))
+Clientsock.bind(('127.0.0.4',5004))
 Clientsock.listen(1)
 
 hearbeat = open('hearbeat_server.txt','w')
 registro = open('registro_server.txt','w')
 
 while True: #loop infinito
-    conn1,add1 = nodo1.accept()
-    conn2,add2 = nodo2.accept()
-    conn3,add3 = nodo3.accept()
-    conn4,add4 = nodo4.accept()
 
     try:
         flag = True
@@ -66,6 +58,9 @@ while True: #loop infinito
     
         
         while flag: # esperar respuestas del multicast
+            conn1,add1 = nodo1.accept()
+            conn2,add2 = nodo2.accept()
+            conn3,add3 = nodo3.accept()
             #guardar mensaje del cliente 3
             ClientConn, ClientAdd = Clientsock.accept()
             ClientMessage = ClientConn.recv(1024).decode()
@@ -92,8 +87,6 @@ while True: #loop infinito
                     conn2.sendall(ClientMessage.encode())
                 elif elegido == add3[0]:
                     conn3.sendall(ClientMessage.encode())
-                elif elegido == add4[0]:
-                    conn4.sendall(ClientMessage.encode())
 
                 ClientConn.sendall(elegido.encode()) # mandarle el mensaje del cliente al nodo seleccionado
                 
@@ -104,8 +97,6 @@ while True: #loop infinito
                     respuesta = conn2.recv(1024).decode()
                 elif elegido == add3[0]:
                     respuesta = conn3.recv(1024).decode()
-                elif elegido == add4[0]:
-                    respuesta = conn4.recv(1024).decode()
                 
                 # recibir mensaje del datanode con "registro correcto"
                 registro.write(elegido.encode()+'\n')   # escribir en registro_server.txt el datanode que fuarda el mensaje 7
@@ -113,16 +104,13 @@ while True: #loop infinito
             flag = True
             time.sleep(5) #esperar 5 segundos 1 
             sent = sock.sendto(message, multicast_group) #mandar multicast 1 
-
-    '''finally:
-        print('closing socket')
-        sock.close()'''
+    except:
+        c=0
     
 sock.close()
 Clientsock.close()
 nodo1.close()
 nodo2.close()
 nodo3.close()
-nodo4.close()
 hearbeat.close()
 registro.close()

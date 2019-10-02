@@ -4,12 +4,13 @@ import struct
 import sys
 
 multicast_group = '224.10.10.10'
-server_address = ('', 5000)
+server_address = (socket.gethostname(), 5000)
 
 # Creae el socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-
+ip = socket.gethostbyname(socket.gethostname())
 # Enlazar el soket a la direccion del servidor
+print(ip)
 sock.bind(server_address)
 
 # Agregar el socket al grupo multicast
@@ -19,9 +20,8 @@ sock.setsockopt(socket.IPPROTO_IP,socket.IP_ADD_MEMBERSHIP,mreq)
 
 # socket comunicacion 1 a 1
 sckt = socket.socket()
-sckt.connect(('localhost', 5003)) #deberia cambiar segun el nodo que sea entre [5001 - 5004]
+sckt.connect(('127.0.0.2', 5002)) #deberia cambiar segun el nodo que sea entre [5001 - 5004]
 
-archivo = open('data.txt','a')
 
 # recibir multicast
 # responder 'estoy vivo'
@@ -32,6 +32,7 @@ archivo = open('data.txt','a')
 
 # ciclo de recepcio y envio de mensajes
 while True:
+    archivo = open('data.txt','a')
     # recibir multicast
     data, address = sock.recvfrom(1024) # data = mensaje  adress = ('IP', puerto) del server
     # responder estoy vivo
@@ -42,6 +43,6 @@ while True:
         sckt.sendall('registro fue correto'.encode())
     except:
         c=0
-archivo.close()
+    archivo.close()
 sock.close()
 sckt.close()

@@ -11,7 +11,7 @@ multicast_group = ('224.10.10.10', 5000)
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
 # Asignar timeout para no boquear el socket al tratar de recivir datos
-sock.settimeout(0.2)
+sock.settimeout(0.5)
 
 # Asignar el TTL para que el mensaje solo pase por la red local
 ttl = struct.pack('b', 1)
@@ -30,8 +30,8 @@ sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
 
 
 #socket del cliente
-Clientsock = socket.socket()
-Clientsock.bind(('127.0.0.4',5004))
+Clientsock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+Clientsock.bind(('localhost',5004))
 Clientsock.listen(1)
 
 hearbeat = open('hearbeat_server.txt','w')
@@ -48,11 +48,13 @@ while True: #loop infinito
             #guardar mensaje del cliente 3
             ClientConn, ClientAdd = Clientsock.accept()
             ClientMessage = ClientConn.recv(1024).decode()
-            
+            print("Server: Despues Cliente recv")
             IPRespuestas = list()
             
             try:
+                print("HeadNode Try")
                 data, server = sock.recvfrom(1024) #->data = respuesta. ->server = ('IP', puerto) del que responde
+                print("HeadNode recibe la respuesta")
                 IPRespuestas.append(server[0]) #guarda las ips de lo que respondieron
             except socket.timeout:
                 # la respuesta no llega ates del timeout
@@ -63,10 +65,9 @@ while True: #loop infinito
                 hearbeat.write(data+' desde'+server[0]+'\n') # escribir respuesta en hearbeat_server.txt 2 
                 
                 elegido = random.choice(IPRespuestas) # elegir un nodo random, mandarle del ClientMessage 4
-                
                 #mandar el mensaje a todos
                 sock.sendto(ClientMessage+' '+elegido, multicast_group)
-
+                print("Server: Despues Cliente sendto")
                 ClientConn.sendall(elegido.encode()) # mandarle el mensaje del cliente al nodo seleccionado
                 
                 

@@ -4,7 +4,7 @@ import struct
 import sys
 
 multicast_group = '224.10.10.10'
-server_address = (socket.gethostname(), 5000)
+server_address = ('', 5000)
 
 # Creae el socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -35,15 +35,20 @@ while True:
     archivo = open('data.txt','a')
     # recibir multicast
     data, address = sock.recvfrom(1024) # data = mensaje  adress = ('IP', puerto) del server
+    print("DataNode Mensaje recibido1: ", (data,address))
     # responder estoy vivo
-    sock.sendto(b'Estoy vivo!', address) # respondemos el multicast
+    sock.sendto(b'Estoy vivo!', ('10.0.75.1',5000)) # respondemos el multicast
+    print("DataNode Mensaje recibido2")
     try:  
+        print("Datanode2 Try")
         mensajeServer , address= sock.recvfrom(1024)#recibir mensaje
+        print("DataNode Mensaje recibido3", mensajeServer)
         mensajeServer = mensajeServer.split(' ')
         if mensajeServer[-1] == sock.gethostbyname(socket.gethostname()):
             archivo.write(mensajeServer+'\n') #escribir en data.txt
             sock.sendto(b'registro fue correto', address)
     except:
+        print("DataNode Except")
         c=0
     archivo.close()
 sock.close()

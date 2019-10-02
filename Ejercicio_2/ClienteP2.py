@@ -5,22 +5,26 @@ import socket
 # recibir mensaje desde el headnode
 # escribir en registro_cliente.txt el datanode que guarda mi mensaje
 
-sock = socket.socket()
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-sock.connect(('127.0.0.4',5004))
+sock.connect(('localhost',5004))
 
 registro = open('registro_cliente.txt','a')
 cont = 1
 flag = True
 while flag:
     try:
+        print("Cliente: Try inicio")
         mensaje = 'mensaje número '+str(cont)+' desde el cliente'
         sock.sendall(mensaje.encode())
-
+        print("Cliente: Try Despues de sendall")
         data = sock.recv(1024).decode()
+        print("Cliente: data")
         registro.write(data+'\n')
+        print("Cliente: Try inicio")
         cont+=1
     except:
+        print("Cliente: Except")
         c=0
 sock.close()
 registro.close()

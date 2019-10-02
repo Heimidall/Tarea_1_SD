@@ -24,6 +24,8 @@ services:
     command: python ./Ejercicio_2/DataNode1.py
     network_mode: "host"
     image: python
+    ports:
+      - "5000:5000"
     volumes:
       - .:/cliente
     depends_on:
@@ -35,6 +37,8 @@ services:
     command: python ./Ejercicio_2/DataNode2.py
     network_mode: "host"
     image: python
+    ports:
+      - "5000:5000"
     volumes:
       - .:/cliente
     depends_on:
@@ -46,6 +50,8 @@ services:
     command: python ./Ejercicio_2/DataNode3.py
     network_mode: "host"
     image: python
+    ports:
+      - "5000:5000"
     volumes:
       - .:/cliente
     depends_on:
@@ -56,6 +62,8 @@ services:
       dockerfile: DOCKERFILE
     command: python ./Ejercicio_2/ClienteP2.py
     network_mode: "host"
+    ports:
+      - "5000:5000"
     image: python
     volumes:
       - .:/cliente

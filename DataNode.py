@@ -42,5 +42,5 @@ while True:
         sckt.sendall('registro fue correto'.encode())
 
 archivo.close()
-
-
+sock.close()
+sckt.close()

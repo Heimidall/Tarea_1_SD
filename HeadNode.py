@@ -117,5 +117,11 @@ while True: #loop infinito
     '''finally:
         print('closing socket')
         sock.close()'''
+sock.close()
+Clientsock.close()
+nodo1.close()
+nodo2.close()
+nodo3.close()
+nodo4.close()
 hearbeat.close()
 registro.close()

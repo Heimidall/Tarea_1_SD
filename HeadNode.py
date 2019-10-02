@@ -30,19 +30,19 @@ sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
 
 #socket de los nodos
 nodo1 = socket.socket()
-nodo1.bind(('localhot',5001))
+nodo1.bind(('localhost',5001))
 nodo1.listen(1)
 
 nodo2 = socket.socket()
-nodo2.bind(('localhot',5002))
+nodo2.bind(('localhost',5002))
 nodo2.listen(1)
 
 nodo3 = socket.socket()
-nodo3.bind(('localhot',5003))
+nodo3.bind(('localhost',5003))
 nodo3.listen(1)
 
 nodo4 = socket.socket()
-nodo4.bind(('localhot',5004))
+nodo4.bind(('localhost',5004))
 nodo4.listen(1)
 
 #socket del cliente
@@ -117,6 +117,8 @@ while True: #loop infinito
     '''finally:
         print('closing socket')
         sock.close()'''
+    except:
+        c=0
 sock.close()
 Clientsock.close()
 nodo1.close()

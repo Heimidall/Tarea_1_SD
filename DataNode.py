@@ -40,7 +40,8 @@ while True:
         mensajeServer = sckt.recv(1024).decode() #recibir mensaje
         archivo.write(mensajeServer+'\n') #escribir en data.txt
         sckt.sendall('registro fue correto'.encode())
-
+    except:
+        c=0
 archivo.close()
 sock.close()
 sckt.close()

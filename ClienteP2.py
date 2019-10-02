@@ -6,7 +6,7 @@ import socket
 # escribir en registro_cliente.txt el datanode que guarda mi mensaje
 
 sock = socket.socket()
-sock.connect(('localhost',5005))
+sock.connect(('localhost',5004))
 
 registro = open('registro_cliente.txt','a')
 cont = 1
@@ -19,5 +19,7 @@ while flag:
         data = sock.recv(1024).decode()
         registro.write(data+'\n')
         cont+=1
+    except:
+        c=0
 sock.close()
 registro.close()

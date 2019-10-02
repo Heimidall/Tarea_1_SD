@@ -17,9 +17,6 @@ group = socket.inet_aton(multicast_group)
 mreq = struct.pack('4sL', group, socket.INADDR_ANY)
 sock.setsockopt(socket.IPPROTO_IP,socket.IP_ADD_MEMBERSHIP,mreq)
 
-# socket comunicacion 1 a 1
-sckt = socket.socket()
-sckt.connect(('localhost', 5003)) #deberia cambiar segun el nodo que sea entre [5001 - 5004]
 
 archivo = open('data.txt','a')
 
@@ -32,16 +29,19 @@ archivo = open('data.txt','a')
 
 # ciclo de recepcio y envio de mensajes
 while True:
+    archivo = open('data.txt','a')
     # recibir multicast
     data, address = sock.recvfrom(1024) # data = mensaje  adress = ('IP', puerto) del server
     # responder estoy vivo
     sock.sendto(b'Estoy vivo!', address) # respondemos el multicast
     try:  
-        mensajeServer = sckt.recv(1024).decode() #recibir mensaje
-        archivo.write(mensajeServer+'\n') #escribir en data.txt
-        sckt.sendall('registro fue correto'.encode())
+        mensajeServer , address= sckt.recvfrom(1024)#recibir mensaje
+        mensajeServer = mensajeServer.split(' ')
+        if mensajeServer[-1] == sckt.gethostbyname(socket.gethostname()):
+            archivo.write(mensajeServer+'\n') #escribir en data.txt
+            sock.sendto(b'registro fue correto', address)
     except:
         c=0
-archivo.close()
+    archivo.close()
 sock.close()
-sckt.close()
+

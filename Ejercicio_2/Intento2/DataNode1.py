@@ -45,3 +45,7 @@ while True:
         archivo = open('data.txt' ,'a')
         archivo.write(data+'\n')
         archivo.close()
+        sock.sendto(b'Registro fue correcto',address)
+    else:
+        print('na que ver yo')
+        sock.sendto(b'No debo hacer el registro',address)

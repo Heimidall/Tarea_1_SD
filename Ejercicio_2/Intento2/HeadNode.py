@@ -1,6 +1,7 @@
 import socket
 import struct
 import time
+import random
 message = b'Estas vivo?'
 multicast_group = ('224.10.10.10', 10000)
 
@@ -34,8 +35,24 @@ while True:
                 #sent = sock.sendto(message, multicast_group)
                 hearbeat.write(mensaje) # escribir respuesta en hearbeat_server.txt 2 
                 print('received {!r} from {}'.format(data, server))
-                sent2 = sock.sendto(b'Mensaje cliente 1',multicast_group)
+
+                elegido = random.choice([1,2])
+                if elegido == 1:
+                    mensajecliente = 'Mensaje Cliente 1'.encode()
+                elif elegido == 2:
+                    mensajecliente = 'Mensaje Cliente 2'.encode()
+                elif elegido == 2:
+                    mensajecliente = 'Mensaje Cliente 3'.encode()
+                sent2 = sock.sendto(mensajecliente,multicast_group)
                 print('sent2 \n')
+
+                data2, server2 = sock.recvfrom(16)
+                mensaje2 = data2.decode()
+                print(mensaje2)
+                if mensaje2 == 'Registro fue correcto': #deberia mandar al clientre
+                    print(mensaje2)
+                else:
+                    print(mensaje2)
                 break
             except:
                 socket.timeout

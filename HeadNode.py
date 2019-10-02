@@ -117,8 +117,7 @@ while True: #loop infinito
     '''finally:
         print('closing socket')
         sock.close()'''
-    except:
-        c=0
+    
 sock.close()
 Clientsock.close()
 nodo1.close()

@@ -24,7 +24,7 @@ sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
 cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print('Starting up on {} port {}'.format(*server_address))
 cliente.bind(server_address)
-cliente.listen(1)
+cliente.listen()
 
 flag = True
 while True:
@@ -63,7 +63,7 @@ while True:
 
                 data2, server2 = sock.recvfrom(16)
                 mensaje2 = data2.decode()
-                print(mensaje2)
+                print("Mensaje 2 " + mensaje2)
                 if mensaje2 == 'Registro fue correcto': #deberia mandar al clientre
                     msj = ("El mensaje fue guardado en el data node" + elegido).encode()
                     connection.sendall(msj)

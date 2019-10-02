@@ -34,7 +34,7 @@ while True:
                 #sent = sock.sendto(message, multicast_group)
                 hearbeat.write(mensaje) # escribir respuesta en hearbeat_server.txt 2 
                 print('received {!r} from {}'.format(data, server))
-                sent2 = sock.sendto(b'Mensaje cliente',multicast_group)
+                sent2 = sock.sendto(b'Mensaje cliente 1',multicast_group)
                 print('sent2 \n')
                 break
             except:

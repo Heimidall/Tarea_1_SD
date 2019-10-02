@@ -20,6 +20,7 @@ sock.setsockopt(
     socket.IP_ADD_MEMBERSHIP,
     mreq)
 
+ID = 2
 # Receive/respond loop
 while True:
     print('\nwaiting to receive message')
@@ -33,4 +34,14 @@ while True:
 
     data, address = sock.recvfrom(1024) #mensaje del cliente
     print('recived {} bytes from {}'.format(len(data), address))
-    print(data.decode())
+    data = data.decode()
+    print(data)
+
+    datos = data.split(' ')
+    print(datos)
+
+    if datos[-1] == ID:
+        print('yo soy el elegido, desde '+ID)
+        archivo = open('data.txt' ,'a')
+        archivo.write(data+'\n')
+        archivo.close()

@@ -86,7 +86,7 @@ while True:
                 #hearbeat = open('hearbeat_server.txt','a')
                 #hearbeat.write(mensaje) # escribir respuesta en hearbeat_server.txt 2 
                 #hearbeat.close()
-                #print('received {!r} from {}'.format(data, server))
+                print('received {!r} from {}'.format(data, server))
 
                 elegido = random.choice([1,2])
                 if elegido == 1:

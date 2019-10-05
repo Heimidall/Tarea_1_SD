@@ -20,26 +20,17 @@ sock.setsockopt(
     socket.IP_ADD_MEMBERSHIP,
     mreq)
 
-ID = '2'
+ID = '3'
 # Receive/respond loop
 while True:
-    print('\nwaiting to receive message')
+    print('\n waiting to receive message')
     data, address = sock.recvfrom(1024) #consulta del HEadNode
-
-    print('received {} bytes from {}'.format(len(data), address)) 
-    print(data)
-
-    print('Data Node 2 vivo', address)
-    sock.sendto(b'Data Node 2 vivo', address)
-
+    print('Data Node 3 vivo', address)
+    sock.sendto(b'Data Node 3 vivo', address)
     data, address = sock.recvfrom(1024) #mensaje del cliente
-    print('recived {} bytes from {}'.format(len(data), address))
     data = data.decode()
     print(data)
-
     datos = data.split(' ')
-    print(datos)
-
     if datos[-1] == ID:
         print('yo soy el elegido, desde '+ID)
         archivo = open('data.txt' ,'a')
@@ -49,4 +40,4 @@ while True:
         print("Registro Correcto")
     else:
         print('na que ver yo')
-        sock.sendto(b'No debo hacer el registro',address)
+        ##sock.sendto(b'No debo hacer el registro',address)

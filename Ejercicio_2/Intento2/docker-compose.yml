@@ -11,7 +11,7 @@ services:
       - "10000:10000"
     volumes:
       - ./headnode:/Tarea_1_SD/Ejercicio_2/
-    command: python3 ./HeadNode.py
+    command: python3 -u ./HeadNode.py
     depends_on:
       - DataNode1
       - DataNode2
@@ -22,7 +22,7 @@ services:
       context: ./datanode1
       dockerfile: DOCKERFILE
     image: python:latest
-    command: python3 ./DataNode1.py
+    command: python3 -u ./DataNode1.py
     volumes:
       - ./datanode1:/Tarea_1_SD/Ejercicio_2/
 
@@ -31,7 +31,7 @@ services:
       context: ./datanode2
       dockerfile: DOCKERFILE
     image: python:latest
-    command: python3 ./DataNode2.py
+    command: python3 -u ./DataNode2.py
     volumes:
       - ./datanode2:/Tarea_1_SD/Ejercicio_2/
 
@@ -40,7 +40,7 @@ services:
       context: ./datanode3
       dockerfile: DOCKERFILE
     image: python:latest
-    command: python3 ./DataNode3.py
+    command: python3 -u ./DataNode3.py
     volumes:
       - ./datanode3:/Tarea_1_SD/Ejercicio_2/
 
@@ -52,7 +52,7 @@ services:
     ports:
       - "9999:9999"
     image: python:latest
-    command: python3 ./Cliente.py
+    command: python3 -u ./Cliente.py
     volumes:
       - ./cliente:/Tarea_1_SD/Ejercicio_2/
     depends_on:

@@ -58,6 +58,8 @@ def multicas_clientMEassage(mensaje):
     data , server = sock.recvfrom(1024)'''
 
 
+
+
 flag = True
 #timer = threading.Timer(5,multi_mensaje,[message])
 timer = threading.Timer(5,multicast_Message)
@@ -68,7 +70,7 @@ while True:
         
         # Send data to the multicast group
         print('sending {!r}'.format(message))
-        #sent = sock.sendto(message, multicast_group)
+        sent = sock.sendto(message, multicast_group)
         print("entre al try")
         # Look for responses from all recipients
         while True:
@@ -84,7 +86,7 @@ while True:
                 #hearbeat = open('hearbeat_server.txt','a')
                 #hearbeat.write(mensaje) # escribir respuesta en hearbeat_server.txt 2 
                 #hearbeat.close()
-                #print('received {!r} from {}'.format(data, server))
+                print('received {!r} from {}'.format(data, server))
 
                 elegido = random.choice([1,2])
                 if elegido == 1:

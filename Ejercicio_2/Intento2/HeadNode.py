@@ -2,6 +2,7 @@ import socket
 import struct
 import time
 import random
+import threading
 message = b'Estas vivo?'
 multicast_group = ('224.10.10.10', 10000)
 server_address = ('localhost', 9999)
@@ -25,8 +26,17 @@ cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print('Starting up on {} port {}'.format(*server_address))
 cliente.bind(server_address)
 cliente.listen()
+timer = None
+def multi_mensaje(mensaje):
+    global timer
+    sent = sock.sendto(message, multicast_group)
+    timer = threading.Timer(5,multi_mensaje,[mensaje])
+    timer.start()
+
 
 flag = True
+timer = threading.Timer(5,multi_mensaje,[mensaje])
+timer.start()
 while True:
     try:
         connection, client_address = cliente.accept()

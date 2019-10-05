@@ -35,7 +35,7 @@ def multi_mensaje(mensaje):
 
 
 flag = True
-timer = threading.Timer(5,multi_mensaje,[mensaje])
+timer = threading.Timer(5,multi_mensaje,[message])
 timer.start()
 while True:
     try:
@@ -88,7 +88,6 @@ while True:
                 print('No hay mas mensajes, cerrando socket')
                 flag = False
                 break
-        time.sleep(5) #esperar 5 segundos 1
     except:
         print("No se pudo establecer comunicacion")
     

@@ -1,0 +1,62 @@
+version: "3.7"
+
+services:
+  server:
+    build:
+      context: ./headnode
+      dockerfile: DOCKERFILE
+    image: python:latest
+    ports:
+      - "9999:9999"
+      - "10000:10000"
+    volumes:
+      - ./headnode:/Tarea_1_SD/Ejercicio_2/
+    command: python3 ./HeadNode.py
+    depends_on:
+      - DataNode1
+      - DataNode2
+      - DataNode3
+      
+  DataNode1:
+    build:
+      context: ./datanode1
+      dockerfile: DOCKERFILE
+    image: python:latest
+    command: python3 ./DataNode1.py
+    volumes:
+      - ./datanode1:/Tarea_1_SD/Ejercicio_2/
+
+  DataNode2:
+    build:
+      context: ./datanode2
+      dockerfile: DOCKERFILE
+    image: python:latest
+    command: python3 ./DataNode2.py
+    volumes:
+      - ./datanode2:/Tarea_1_SD/Ejercicio_2/
+
+  DataNode3:
+    build:
+      context: ./datanode3
+      dockerfile: DOCKERFILE
+    image: python:latest
+    command: python3 ./DataNode3.py
+    volumes:
+      - ./datanode3:/Tarea_1_SD/Ejercicio_2/
+
+  cliente:
+    build:
+      context: ./cliente
+      dockerfile: DOCKERFILE
+    network_mode: "host"
+    ports:
+      - "9999:9999"
+    image: python:latest
+    command: python3 ./Cliente.py
+    volumes:
+      - ./cliente:/Tarea_1_SD/Ejercicio_2/
+    depends_on:
+      - DataNode1
+      - DataNode2
+      - DataNode3
+      - server

@@ -49,4 +49,4 @@ while True:
         print("Registro Correcto")
     else:
         print('na que ver yo')
-        sock.sendto(b'No debo hacer el registro',address)
+        #sock.sendto(b'No debo hacer el registro',address)

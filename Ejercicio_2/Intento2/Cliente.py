@@ -15,7 +15,7 @@ try:
     print('sending {!r}'.format(message))
     while True:
         sock.sendall(message)
-        time.sleep(5)
+        #time.sleep(5)
         data = sock.recv(1024)
         print('received {!r}'.format(data))
 

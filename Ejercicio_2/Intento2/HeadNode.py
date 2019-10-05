@@ -32,10 +32,35 @@ def multi_mensaje(mensaje):
     sent = sock.sendto(message, multicast_group)
     timer = threading.Timer(5,multi_mensaje,[mensaje])
     timer.start()
+    '''
+   def wuf ():
+    global timer
+    print ("Wuf-wuf! ===================================")
+    timer = threading.Timer(2, wuf)
+    timer.start()
+    '''
+
+def multicast_Message():
+    global timer
+    sent = sock.sendto(message, multicast_group)
+    data , server = sock.recvfrom(1024)
+    mensaje = 'Recibiendo {!r} desde {} \n'.format(data, server)
+    print(mensaje)
+    hearbeat = open('hearbeat_server.txt','a')
+    hearbeat.write(mensaje) # escribir respuesta en hearbeat_server.txt 2 
+    hearbeat.close()
+    timer = threading.Timer(5,multicast_Message)
+    timer.start()
+
+'''
+def multicas_clientMEassage(mensaje):
+    sent = sock.sendto(mensaje, multicast_group)
+    data , server = sock.recvfrom(1024)'''
 
 
 flag = True
-timer = threading.Timer(5,multi_mensaje,[message])
+#timer = threading.Timer(5,multi_mensaje,[message])
+timer = threading.Timer(5,multicast_Message)
 timer.start()
 while True:
     try:
@@ -43,7 +68,7 @@ while True:
         
         # Send data to the multicast group
         print('sending {!r}'.format(message))
-        sent = sock.sendto(message, multicast_group)
+        #sent = sock.sendto(message, multicast_group)
         print("entre al try")
         # Look for responses from all recipients
         while True:
@@ -52,14 +77,14 @@ while True:
                 data_cliente = connection.recv(1024)
                 msj_cliente = data_cliente.decode()
                 print("Mensaje de vuelta al cliente")
-                data, server = sock.recvfrom(1024)
-                mensaje = 'Recibiendo {!r} desde {} \n'.format(data, server)
-                print(mensaje)
+                #data, server = sock.recvfrom(1024)
+                #mensaje = 'Recibiendo {!r} desde {} \n'.format(data, server)
+                #print(mensaje)
                 #sent = sock.sendto(message, multicast_group)
-                hearbeat = open('hearbeat_server.txt','a')
-                hearbeat.write(mensaje) # escribir respuesta en hearbeat_server.txt 2 
-                hearbeat.close()
-                print('received {!r} from {}'.format(data, server))
+                #hearbeat = open('hearbeat_server.txt','a')
+                #hearbeat.write(mensaje) # escribir respuesta en hearbeat_server.txt 2 
+                #hearbeat.close()
+                #print('received {!r} from {}'.format(data, server))
 
                 elegido = random.choice([1,2])
                 if elegido == 1:
@@ -69,6 +94,7 @@ while True:
                 elif elegido == 2:
                     mensajecliente = (msj_cliente + '3').encode()
                 sent2 = sock.sendto(mensajecliente,multicast_group)
+
                 if data_cliente:
                     connection.sendall(data_cliente)
                 print('sent2 \n')

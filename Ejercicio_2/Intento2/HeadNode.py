@@ -58,6 +58,8 @@ def multicas_clientMEassage(mensaje):
     data , server = sock.recvfrom(1024)'''
 
 
+
+
 flag = True
 #timer = threading.Timer(5,multi_mensaje,[message])
 timer = threading.Timer(5,multicast_Message)
@@ -68,7 +70,7 @@ while True:
         
         # Send data to the multicast group
         print('sending {!r}'.format(message))
-        #sent = sock.sendto(message, multicast_group)
+        sent = sock.sendto(message, multicast_group)
         print("entre al try")
         # Look for responses from all recipients
         while True:

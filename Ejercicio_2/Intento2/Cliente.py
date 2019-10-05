@@ -16,8 +16,12 @@ try:
     while True:
         sock.sendall(message)
         #time.sleep(5)
-        data = sock.recv(1024)
+        data = sock.recv(1024).decode()
         print('received {!r}'.format(data))
+        registro = open('registro_cliente.txt','a')
+        registro.write(data+'\n')
+        registro.close()
+        print('client escribe')
 
 finally:
     print('closing socket')

@@ -25,7 +25,7 @@ sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
 #Crear socket TCP
 cliente = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 cliente.bind(server_address)
-cliente.listen()
+cliente.listen(10)
 timer = None
 def multicast_Message():
     global timer
@@ -43,44 +43,22 @@ flag = True
 #timer = threading.Timer(5,multi_mensaje,[message])
 timer = threading.Timer(5,multicast_Message)
 timer.start()
+connection, address = cliente.accept()
 while True:
-    try:
-        connection, client_address = cliente.accept()
-        # Send data to the multicast group
-        print('sending {!r}'.format(message))
-        sent = sock.sendto(message, multicast_group)
-        # Look for responses from all recipients
-        while True:
-            print('waiting to receive')
-            try:
-                data_cliente = connection.recv(1024)
-                msj_cliente = data_cliente.decode()
-                print("Mensaje de vuelta al cliente")
-                elegido = random.choice([1,2,3])
-                if elegido == 1:
-                    mensajecliente = (msj_cliente + '1').encode()
-                elif elegido == 2:
-                    mensajecliente = (msj_cliente + '2').encode()
-                elif elegido == 3:
-                    mensajecliente = (msj_cliente + '3').encode()
-                sent2 = sock.sendto(mensajecliente,multicast_group)
-                if data_cliente:
-                    connection.sendall(data_cliente)
-                data2, server2 = sock.recvfrom(16)
-                mensaje2 = data2.decode()
-                if mensaje2 == 'Registro fue correcto': #deberia mandar al clientre
-                    msj = ("El mensaje fue guardado en el data node" + elegido).encode()
-                    connection.sendall(msj)
-                else:
-                    print(mensaje2)
-                break
-            except:
-                socket.timeout
-                print('No hay mas mensajes, cerrando socket')
-                flag = False
-                break
-    except:
-        print("No se pudo establecer comunicacion")
-    
-print('closing socket')
-sock.close()
+    Clientmessage = connection.recv(1024).decode()
+    if Clientmessage:
+        elegido = random.choice([1,2,3])
+        if elegido == 1:
+            mensajecliente = (Clientmessage + '1').encode()
+        elif elegido == 2:
+            mensajecliente = (Clientmessage + '2').encode()
+        elif elegido == 3:
+            mensajecliente = (Clientmessage + '3').encode()
+        print("HEADNODE: ENVIO UN MENSAJE DEL CLIENTE A LOS DATANODES")
+        sent = sock.sendto(mensajecliente, multicast_group)
+        data , server = sock.recvfrom(1024)
+        if data:
+            data = data.decode()
+            if data == 'Registro fue correcto':
+                mensaje = ('Su mensaje fue guardado en el datanode ' + str(elegido)).encode()
+                connection.sendall(mensaje)

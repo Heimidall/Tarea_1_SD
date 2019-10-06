@@ -23,20 +23,19 @@ sock.setsockopt(
 ID = '1'
 # Receive/respond loop
 while True:
-    print('\n waiting to receive message')
+    print('Esperando mensajes \n')
+
     data, address = sock.recvfrom(1024) #consulta del HEadNode
-    print('Data Node 1 vivo', address)
-    sock.sendto(b'Data Node 1 vivo', address)
-    data, address = sock.recvfrom(1024) #mensaje del cliente
-    data = data.decode()
-    datos = data.split(' ')
-    if datos[-1] == ID:
-        print('yo soy el elegido, desde '+ID)
-        archivo = open('data.txt' ,'a')
-        archivo.write(data+'\n')
-        archivo.close()
-        sock.sendto(b'Registro fue correcto',address)
-        print("Registro Correcto")
-    else:
-        print('na que ver yo')
-        ##sock.sendto(b'No debo hacer el registro',address)
+    if data:
+        data = data.decode()
+        print("El mensaje que le llega al datanode1 es:", data)
+        if data == 'Estas vivo?':
+            print('Data Node 1 vivo', address)
+            sock.sendto(b'Data Node 1 vivo', address)
+        else:
+            datos = data.split(' ')
+            if datos[-1] == ID:
+                archivo = open('data.txt' ,'a')
+                archivo.write(data+'\n')
+                archivo.close()
+                sock.sendto(b'Registro fue correcto',address)

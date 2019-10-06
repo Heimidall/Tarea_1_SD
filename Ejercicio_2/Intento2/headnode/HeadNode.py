@@ -31,7 +31,7 @@ def multicast_Message():
     global timer
     sent = sock.sendto(message, multicast_group)
     data , server = sock.recvfrom(1024)
-    mensaje = 'Recibiendo {!r} desde {} \n'.format(data, server)
+    mensaje = 'Recibiendo {!r} desde {} \n'.format(data.decode(), server)
     print(mensaje)
     hearbeat = open('hearbeat_server.txt','a')
     hearbeat.write(mensaje) # escribir respuesta en hearbeat_server.txt 2 

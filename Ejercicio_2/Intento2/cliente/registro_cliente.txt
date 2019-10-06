@@ -1,4 +1,3 @@
-Su mensaje fue guardado en el datanode 1
 
 
 
